@@ -3,9 +3,9 @@ public class Piece implements Comparable<Piece> {
     protected int intiative;
     // Some sort of image will go here
 
-    public Piece(String name /* Image will also be passed here */) {
+    public Piece(String name, int intiative /* Image will also be passed here */) {
         this.name = name;
-        intiative = 0;
+        this.intiative = intiative;
     }
 
     public String getName() {
@@ -22,7 +22,7 @@ public class Piece implements Comparable<Piece> {
 
     @Override
     public int compareTo(Piece other) {
-        System.out.println(other);
+
         int otherI = other.getIntiative();
         if (intiative > otherI)
             return -1;
