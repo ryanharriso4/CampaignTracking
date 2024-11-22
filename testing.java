@@ -1,15 +1,18 @@
-import java.util.Arrays;
+import java.util.ArrayList;
 
 public class testing {
     public static void main(String[] args) {
-        Piece[] pieces = new Piece[2];
-        Piece p1 = new Piece("Ryan", 15);
-        p1.setInitiative(20);
-        Enemy p2 = new Enemy("Ivan", 10);
-        p2.setInitiative(10);
-        pieces[0] = p1;
-        pieces[1] = p2;
-        Arrays.sort(pieces);
-        System.out.println(Arrays.toString(pieces));
+        Encounter e1 = new Encounter("sword", 100);
+        Enemy en1 = new Enemy("Goblin", 20);
+        Piece p1 = new Piece("Ryan", 30);
+        e1.addCharacter(en1);
+        e1.addCharacter(p1);
+
+        e1.calcIntiative();
+        ArrayList<Piece> chars = e1.getCharacters();
+        for (Piece x : chars) {
+            System.out.println(x.getName());
+        }
+
     }
 }
