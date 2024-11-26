@@ -3,20 +3,28 @@ public class Enemy extends Piece {
     private int ac;
     private int hp;
     private int intiativeBonus;
-    private String attacks;
-    private String infoBlock; // includes: speed, stats, and additional info
+    // private String speed;
+    // private String actions;
+    // private String reactions;
+    // private String otherInfo; // Things like Skills, immunites, etc...
+    // private String statBlock;
 
-    public Enemy(String name, int intiative) {
-        super(name, intiative);
+    public Enemy(String name, int intiative, int hp, int ac) {
+        super(name, intiative, hp, ac);
     }
 
-    public Enemy(String name, int intiative, int ac, int hp, String attacks, String infoBlock) {
-        super(name, intiative);
-        this.ac = ac;
-        this.hp = hp;
-        this.attacks = attacks;
-        this.infoBlock = infoBlock;
-    }
+    // public Enemy(String name, int intiative, int ac, int hp, String actions,
+    // String otherInfo, String speed,
+    // String reactions, String statBlock) {
+    // super(name, intiative);
+    // this.ac = ac;
+    // this.hp = hp;
+    // this.actions = actions;
+    // this.otherInfo = otherInfo;
+    // this.speed = speed;
+    // this.reactions = reactions;
+    // this.statBlock = statBlock;
+    // }
 
     public boolean takeDamage(int amount) {
         hp -= amount;
@@ -35,19 +43,15 @@ public class Enemy extends Piece {
         return false; // attack misses
     }
 
-    public String getAttacks() {
-        return attacks;
-    }
+    // public String getAttacks() {
+    // return actions;
+    // }
 
     public void setInitiative(int roll, boolean useB) {
         if (useB)
             intiative = roll + intiativeBonus;
         else
             intiative = roll;
-    }
-
-    public String printInfo() {
-        return infoBlock;
     }
 
 }

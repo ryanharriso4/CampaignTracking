@@ -1,11 +1,15 @@
 public class Piece implements Comparable<Piece> {
     protected String name;
     protected int intiative;
+    protected int hp;
+    protected int ac;
     // Some sort of image will go here
 
-    public Piece(String name, int intiative /* Image will also be passed here */) {
+    public Piece(String name, int intiative, int hp, int ac /* Image will also be passed here */) {
         this.name = name;
         this.intiative = intiative;
+        this.hp = hp;
+        this.ac = ac;
     }
 
     public String getName() {
@@ -33,6 +37,12 @@ public class Piece implements Comparable<Piece> {
 
     @Override
     public String toString() {
-        return name;
+        StringBuilder sb = new StringBuilder();
+        sb.append(name);
+        sb.append("\nHP:");
+        sb.append(hp);
+        sb.append(" AC:");
+        sb.append(ac);
+        return sb.toString();
     }
 }
