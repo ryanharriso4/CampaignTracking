@@ -1,3 +1,4 @@
+
 public class Piece implements Comparable<Piece> {
     protected String name;
     protected int intiative;
@@ -39,10 +40,12 @@ public class Piece implements Comparable<Piece> {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(name);
-        sb.append("\nHP:");
-        sb.append(hp);
-        sb.append(" AC:");
+        sb.append("<HTML><br/> Armor class: </HTML>");
         sb.append(ac);
+        sb.append("<HTML><br/> Hit Points: </HTML>");
+        sb.append(hp);
+        sb.append("<HTML><hr> ");
+
         return sb.toString();
     }
 }
