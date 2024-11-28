@@ -121,7 +121,9 @@ public class display {
                             speedIn.getText(),
                             reactIn.getText(), strIn.getText(), dexIn.getText(), conIn.getText(), intlIn.getText(),
                             wisIn.getText(), chaIn.getText());
-                    System.out.println(enemy.getStats());
+
+                    JLabel label = new JLabel(enemy.toString());
+                    JOptionPane.showMessageDialog(null, label, "message", JOptionPane.INFORMATION_MESSAGE);
 
                 }
 

@@ -27,20 +27,22 @@ public class Enemy extends Piece {
         this.reactions = reactions;
         // this.statBlock = statBlock;
         StringBuilder sb = new StringBuilder();
-        sb.append(" STR      DEX      CON      INT      WIS      CHA\n");
-        sb.append(String.format("%1$-5s", str));
-        sb.append("    ");
-        sb.append(String.format("%1$-5s", dex));
-        sb.append("    ");
-        sb.append(String.format("%1$-5s", con));
-        sb.append("    ");
-        sb.append(String.format("%1$-5s", intl));
-        sb.append("    ");
-        sb.append(String.format("%1$-5s", wis));
-        sb.append("    ");
-        sb.append(String.format("%1$-5s", cha));
-        sb.append("    ");
-        this.statBlock = sb.toString();
+        sb.append(" STR      DEX      CON      INT      WIS      CHA<br/>");
+        sb.append(String.format("%1$-10s", str));
+        // sb.append(" ");
+        sb.append(String.format("%1$-10s", dex));
+        // sb.append(" ");
+        sb.append(String.format("%1$-10s", con));
+        // sb.append(" ");
+        sb.append(String.format("%1$-10s", intl));
+        // sb.append(" ");
+        sb.append(String.format("%1$-10s", wis));
+        // sb.append(" ");
+        sb.append(String.format("%1$-10s", cha));
+        sb.append("</p>");
+        // System.out.println(String.format("%1$-5s", str));
+
+        this.statBlock = sb.toString().replaceAll(" ", "&nbsp;");
 
     }
 
@@ -79,12 +81,15 @@ public class Enemy extends Piece {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        sb.append("<HTML>");
         sb.append(name);
-        sb.append("<HTML><br/> Armor class: </HTML>");
+        sb.append("<br/> Armor class: ");
         sb.append(ac);
-        sb.append("<HTML><br/> Hit Points: </HTML>");
+        sb.append("<br/> Hit Points: ");
         sb.append(hp);
-        sb.append("<HTML><hr> ");
+        sb.append("<br/>");
+        sb.append(statBlock);
+        sb.append("</HTML>");
 
         return sb.toString();
     }
