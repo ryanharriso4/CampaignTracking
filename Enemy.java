@@ -1,4 +1,5 @@
 import java.lang.String;
+import java.util.ArrayList;
 
 public class Enemy extends Piece {
 
@@ -6,8 +7,8 @@ public class Enemy extends Piece {
     private int hp;
     private int intiativeBonus;
     private String speed;
-    private String actions;
-    private String reactions;
+    private ArrayList<String> actions;
+    private ArrayList<String> reactions;
     private String otherInfo; // Things like Skills, immunites, etc...
     private String statBlock;
 
@@ -15,30 +16,75 @@ public class Enemy extends Piece {
         super(name, intiative, hp, ac);
     }
 
-    public Enemy(String name, int intiative, int intiativeBonus, int ac, int hp, String actions,
-            String otherInfo, String speed,
-            String reactions, String str, String dex, String con, String intl, String wis, String cha) {
+    public Enemy(String name, int intiative, int intiativeBonus, int ac, int hp, ArrayList<String> actions,
+            ArrayList<String> reactions, String st, String skills, String vul, String res, String imu, String senses,
+            String lang,
+            String speed,
+            String str, String dex, String con, String intl, String wis, String cha) {
         super(name, intiative, hp, ac);
+        StringBuilder sb = new StringBuilder();
         this.ac = ac;
         this.hp = hp;
-        this.actions = actions;
-        this.otherInfo = otherInfo;
+        this.actions = new ArrayList<String>(actions);
+        this.reactions = new ArrayList<String>(reactions);
+
         this.speed = speed;
-        this.reactions = reactions;
         // this.statBlock = statBlock;
-        StringBuilder sb = new StringBuilder();
+        sb.append("Saving Throws: ");
+        sb.append(st);
+        sb.append("<br>");
+        sb.append("Skills: ");
+        sb.append(skills);
+        sb.append("<br>");
+        sb.append("Vulenarabilites: ");
+        sb.append(vul);
+        sb.append("<br>");
+        sb.append("Resistances: ");
+        sb.append(res);
+        sb.append("<br>");
+        sb.append("Immunities: ");
+        sb.append(imu);
+        sb.append("<br>");
+        sb.append("Languages: ");
+        sb.append(lang);
+        sb.append("<br>");
+
+        sb.append("Senses: ");
+        sb.append(senses);
+
+        this.otherInfo = sb.toString();
+        sb.setLength(0);
+
         sb.append(" STR      DEX      CON      INT      WIS      CHA<br/>");
-        sb.append(String.format("%1$-10s", str));
+        if (str.length() == 6)
+            sb.append(String.format("%1$-9s", str));
+        else
+            sb.append(String.format("%1$-10s", str));
         // sb.append(" ");
-        sb.append(String.format("%1$-10s", dex));
+        if (str.length() == 6)
+            sb.append(String.format("%1$-9s", dex));
+        else
+            sb.append(String.format("%1$-10s", dex));
         // sb.append(" ");
-        sb.append(String.format("%1$-10s", con));
+        if (str.length() == 6)
+            sb.append(String.format("%1$-9s", con));
+        else
+            sb.append(String.format("%1$-10s", con));
         // sb.append(" ");
-        sb.append(String.format("%1$-10s", intl));
+        if (str.length() == 6)
+            sb.append(String.format("%1$-9s", intl));
+        else
+            sb.append(String.format("%1$-10s", intl));
         // sb.append(" ");
-        sb.append(String.format("%1$-10s", wis));
+        if (str.length() == 6)
+            sb.append(String.format("%1$-9s", wis));
+        else
+            sb.append(String.format("%1$-10s", wis));
         // sb.append(" ");
-        sb.append(String.format("%1$-10s", cha));
+        if (str.length() == 6)
+            sb.append(String.format("%1$-9s", cha));
+        else
+            sb.append(String.format("%1$-10s", cha));
         sb.append("</p>");
         // System.out.println(String.format("%1$-5s", str));
 
@@ -83,14 +129,30 @@ public class Enemy extends Piece {
         StringBuilder sb = new StringBuilder();
         sb.append("<HTML>");
         sb.append(name);
-        sb.append("<br/> Armor class: ");
+        sb.append("<hr>");
+        sb.append(" Armor class: ");
         sb.append(ac);
         sb.append("<br/> Hit Points: ");
         sb.append(hp);
-        sb.append("<br/>");
+        sb.append("<br>Speed: ");
+        sb.append(speed);
+        sb.append("<hr>");
         sb.append(statBlock);
+        sb.append("<hr>");
+        sb.append("Actions <br>");
+        for (String s : actions) {
+            sb.append(s);
+            sb.append("<br>");
+        }
+        sb.append("<hr>");
+        sb.append("Reactions <br>");
+        for (String s : reactions) {
+            sb.append(s);
+            sb.append("<br>");
+        }
+        sb.append("<hr>");
+        sb.append(otherInfo);
         sb.append("</HTML>");
-
         return sb.toString();
     }
 
