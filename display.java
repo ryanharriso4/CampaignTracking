@@ -15,34 +15,6 @@ public class display {
 
     public static void main(String[] args) {
 
-        /*
-         * Encounter e = new Encounter("sword", 100);
-         * e.addCharacter(new Piece("Ryan", 0, 16, 14));
-         * e.addCharacter(new Enemy("spectator", 2, 39, 14));
-         * e.calcIntiative();
-         * ArrayList<Piece> characters = e.getCharacters();
-         * 
-         * JFrame frame = new JFrame();
-         * JPanel panel = new JPanel();
-         * for (Piece p : characters) {
-         * JButton button = new JButton(p.getName());
-         * button.addActionListener(new ActionListener() {
-         * public void actionPerformed(ActionEvent e) {
-         * JOptionPane.showMessageDialog(null, p.toString(), null,
-         * JOptionPane.INFORMATION_MESSAGE);
-         * }
-         * });
-         * panel.add(button);
-         * }
-         * 
-         * frame.add(panel);
-         * frame.setSize(500, 600);
-         * frame.setVisible(true);
-         * frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-         */
-
-        /* TRY USING JTabbed pain */
-
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -71,12 +43,6 @@ public class display {
 
                 ArrayList<String> acts = new ArrayList<>();
                 JButton createAct = new JButton("Add Action");
-
-                // reactPanel.add(reactNames);
-                // reactPanel.add(createReact);
-
-                // JLabel other = new JLabel("<HTML><br/> Other </HTML>");
-                // JTextField otherIn = new JTextField(6);
 
                 JLabel stLabel = new JLabel("Saving Throw");
 
@@ -147,8 +113,6 @@ public class display {
                                 JOptionPane.PLAIN_MESSAGE);
                         if (dialog == JOptionPane.YES_OPTION) {
                             acts.add(caName.getText() + ": " + caDisc.getText());
-                            JLabel label = new JLabel(caName.getText());
-
                         }
                     }
                 });
@@ -168,9 +132,6 @@ public class display {
                                 JOptionPane.PLAIN_MESSAGE);
                         if (dialog == JOptionPane.YES_OPTION) {
                             reacts.add(raName.getText() + ": " + raDisc.getText());
-                            JLabel label = new JLabel(raName.getText());
-                            // reactNames.add(label);
-                            // reactPanel.updateUI();
                         }
                     }
                 });
@@ -186,7 +147,6 @@ public class display {
                         JOptionPane.PLAIN_MESSAGE);
 
                 if (dialog == JOptionPane.YES_OPTION) {
-                    StringBuilder sb = new StringBuilder();
                     try {
                         Enemy enemy = new Enemy(nameIn.getText(), 0,
                                 Integer.parseInt(ibIn.getText()),

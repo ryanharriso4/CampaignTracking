@@ -9,7 +9,7 @@ public class Enemy extends Piece {
     private String speed;
     private ArrayList<String> actions;
     private ArrayList<String> reactions;
-    private String otherInfo; // Things like Skills, immunites, etc...
+    private String otherInfo;
     private String statBlock;
 
     public Enemy(String name, int intiative, int hp, int ac) {
