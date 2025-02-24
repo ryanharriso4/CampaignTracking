@@ -8,7 +8,7 @@ During the weekend I run a DND sessions with my friends. After the first couple 
 Adding Page:
 <img width="958" alt="AddingPage" src="https://github.com/user-attachments/assets/612449bc-ba63-4e55-97da-131492275ea5" />
 
-This section of the program allows you to add Locations, Encounter, and Piece. 
+This section of the program allows you to add Locations, Encounters, and Pieces. 
 
 Lets use the example of a dungeon. The dungeon itself would be the location. The rooms in the dungeon would each be seperate encounters. The encounters would be made up of both Enemies and Player Characters repersented by Pieces.
 
