@@ -43,7 +43,7 @@ Health:
 You can change the health of a piece by using the "Take Damage" scroll bar on the right side. A positive input will damage a character and a negative input will heal them. 
 
 Additional Info:
-Since DND is a very complex game it can help to just have a blank canvas to keep notes on pieces. This is the main point of the additional info section. 
+Since DND is a very complex game it can help to just have a blank canvas to keep notes on the different characters. This is the main point of the additional info section. 
 
 
 View Character Info:
