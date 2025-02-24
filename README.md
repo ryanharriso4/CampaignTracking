@@ -46,7 +46,9 @@ Additional Info:
 Since DND is a very complex game it can help to just have a blank canvas to keep notes on the different characters. This is the main point of the additional info section. 
 
 
+
 View Character Info:
+
 <img width="528" alt="Screenshot 2025-02-24 132406" src="https://github.com/user-attachments/assets/2a3da156-4947-4313-aa68-e969c9bd00e4" />
 
 When you Click on the "View Character Info button you will get a dialog box which show's you the characters information". The most important thing about this tab is that it keeps track of an enemies attack's and reactions. Many enemies in DND have upwards of 2 actions and reactions at higher levels which make's their information hard to rememeber. This pop up has saved me lots of time because I don't have to flip into the book constantly. 
