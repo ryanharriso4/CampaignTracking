@@ -52,13 +52,11 @@ public class display {
         AddPC apcButton = new AddPC(sql, pieces);
         AddEncounter aeButton = new AddEncounter(sql, pieces, encounters);
         AddLocation alButton = new AddLocation(sql, encounters, locations);
-        DeleteCharacter dcButton = new DeleteCharacter(sql, pieces);
 
         addpanel.add(acButton.getButton());
         addpanel.add(apcButton.getButton());
         addpanel.add(aeButton.getButton());
         addpanel.add(alButton.getButton());
-        addpanel.add(dcButton.getButton());
 
         CardLayout battleLayout = new CardLayout();
         JPanel battlePanel = new JPanel();
