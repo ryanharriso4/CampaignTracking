@@ -3,12 +3,33 @@ package com.spcdg;
 import java.sql.*;
 import java.util.ArrayList;
 
-
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 public class sqlConnect {
     Connection connection = null;
 
     public sqlConnect() {
+        
+        Properties properties = new Properties();
+
+        String path = null;
+        String user = null;
+        String pass = null;
+
+        try (FileInputStream fileInputStream = new FileInputStream("db.config")) {
+            properties.load(fileInputStream);
+        
+            user = properties.getProperty("DBUSER");
+            pass = properties.getProperty("DBPASS");
+            path = properties.getProperty("DBPATH");
+
+        } catch (IOException e) {
+            
+        }
+
+
         try {
             connection = DriverManager.getConnection("database name",
                     "user",
