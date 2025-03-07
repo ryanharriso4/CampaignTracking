@@ -26,14 +26,14 @@ public class sqlConnect {
             path = properties.getProperty("DBPATH");
 
         } catch (IOException e) {
-            
+            e.printStackTrace();
         }
 
 
         try {
-            connection = DriverManager.getConnection("database name",
-                    "user",
-                    "password");
+            connection = DriverManager.getConnection(path,
+                    user,
+                    pass);
         } catch (Exception e) {
             System.err.println("Connection Failed");
         }

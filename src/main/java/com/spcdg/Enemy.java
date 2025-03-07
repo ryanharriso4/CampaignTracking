@@ -179,7 +179,6 @@ public class Enemy extends Piece {
 
     @Override
     public String toString() {
-        System.out.printf("%d %d", hp, ac);
         StringBuilder sb = new StringBuilder();
         sb.append("<HTML>");
         sb.append(name);
