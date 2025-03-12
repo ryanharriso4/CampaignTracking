@@ -40,10 +40,15 @@ public class sqlConnect {
     }
 
     public ArrayList<Piece> loadCharacters(ArrayList<Piece> characters) {
-
+        Statement statement = null; 
+        Statement statement2 = null;
+        Statement statement3 = null;
+        ResultSet resultSet = null;
+        ResultSet resultSet2 = null;
+        ResultSet resultSet3 = null;
         try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(
                     "select piece.* from piece where not exists(select 1 from enemy where enemy.pnum=piece.piecenum);");
 
             while (resultSet.next()) {
@@ -58,8 +63,8 @@ public class sqlConnect {
                 Enemy enemy = new Enemy(resultSet.getString("pieceName"), resultSet.getInt("intiativebonus"),
                         resultSet.getInt("hp"), resultSet.getInt("ac"), resultSet.getInt("speed"));
 
-                Statement statement2 = connection.createStatement();
-                ResultSet resultSet2 = statement2
+                statement2 = connection.createStatement();
+                resultSet2 = statement2
                         .executeQuery(
                                 String.format("select * from otherinfo where infonum = %d;",
                                         resultSet.getInt("inum")));
@@ -81,8 +86,7 @@ public class sqlConnect {
                                 resultSet.getInt("pnum")));
 
                 int anum;
-                Statement statement3 = connection.createStatement();
-                ResultSet resultSet3;
+                statement3 = connection.createStatement();
                 ArrayList<String> actions = new ArrayList<>();
                 try {
                     while (resultSet2.next()) {
@@ -123,12 +127,57 @@ public class sqlConnect {
             }
         } catch (Exception e) {
             System.err.println(e);
+        } finally{
+            if (resultSet != null){
+                try{
+                    resultSet.close();
+                }catch(SQLException e){
+                    System.err.println(e);
+                }
+            }
+            if (resultSet2 != null){
+                try{
+                    resultSet2.close();
+                }catch(SQLException e){
+                    System.err.println(e);
+                }
+            }
+            if (resultSet3 != null){
+                try{
+                    resultSet3.close();
+                }catch(SQLException e){
+                    System.err.println(e);
+                }
+            }
+            if (statement != null){
+                try{
+                    statement.close();
+                }catch(SQLException e){
+                    System.err.println(e);
+                }
+            }
+            if (statement2 != null){
+                try{
+                    statement2.close();
+                }catch(SQLException e){
+                    System.err.println(e);
+                }
+            }
+            if (statement3 != null){
+                try{
+                    statement3.close();
+                }catch(SQLException e){
+                    System.err.println(e);
+                }
+            }
         }
 
         return characters;
     }
 
     public int addPC(String pieceName, int hp, int ac) {
+        Statement statement = null;
+        ResultSet resultSet = null;
         StringBuilder sb = new StringBuilder();
         try {
             sb.append("insert into piece(pieceName, hp, ac) values(\"");
@@ -141,8 +190,8 @@ public class sqlConnect {
             PreparedStatement ps = connection.prepareStatement(sb.toString());
             ps.execute();
 
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement
+            statement = connection.createStatement();
+            resultSet = statement
                     .executeQuery(String.format("select pieceNum from piece where pieceName = \"%s\";",
                             pieceName));
             resultSet.next();
@@ -154,6 +203,13 @@ public class sqlConnect {
             sb.append(pieceName);
             sb.append(" already exists in the database");
             throw new IllegalArgumentException(sb.toString());
+        } finally {
+            if(statement != null){
+                try{ statement.close(); } catch(SQLException e){ System.err.println(e);}
+            }
+            if(resultSet != null){
+                try {resultSet.close();} catch(SQLException e) { System.err.println(e);}
+            }
         }
 
     }
