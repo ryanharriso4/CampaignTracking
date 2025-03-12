@@ -128,48 +128,12 @@ public class sqlConnect {
         } catch (Exception e) {
             System.err.println(e);
         } finally{
-            if (resultSet != null){
-                try{
-                    resultSet.close();
-                }catch(SQLException e){
-                    System.err.println(e);
-                }
-            }
-            if (resultSet2 != null){
-                try{
-                    resultSet2.close();
-                }catch(SQLException e){
-                    System.err.println(e);
-                }
-            }
-            if (resultSet3 != null){
-                try{
-                    resultSet3.close();
-                }catch(SQLException e){
-                    System.err.println(e);
-                }
-            }
-            if (statement != null){
-                try{
-                    statement.close();
-                }catch(SQLException e){
-                    System.err.println(e);
-                }
-            }
-            if (statement2 != null){
-                try{
-                    statement2.close();
-                }catch(SQLException e){
-                    System.err.println(e);
-                }
-            }
-            if (statement3 != null){
-                try{
-                    statement3.close();
-                }catch(SQLException e){
-                    System.err.println(e);
-                }
-            }
+            if (resultSet != null){ try{ resultSet.close(); } catch(SQLException e) { System.err.println(e); }}
+            if (resultSet2 != null){ try{ resultSet2.close(); } catch(SQLException e) { System.err.println(e); }}
+            if (resultSet3 != null){ try{ resultSet3.close(); } catch(SQLException e) { System.err.println(e); }}
+            if (statement != null){ try{ statement.close(); } catch(SQLException e) { System.err.println(e); }}
+            if (statement2 != null){ try{ statement2.close(); } catch(SQLException e) { System.err.println(e); }}
+            if (statement3 != null){ try{ statement3.close(); } catch(SQLException e) { System.err.println(e); }}
         }
 
         return characters;
@@ -217,6 +181,7 @@ public class sqlConnect {
     public void addEnemy(int speed, String st, String skills, String vul, String res, String immun, String lang,
             String sen, String str, String dex, String con, String intl, String wis, String cha,
             ArrayList<String> actions, ArrayList<String> reactions, String name, int hp, int ac, int ib) {
+        PreparedStatement ps = null;
         try {
             int pcNum = addPC(name, hp, ac);
             int statNum = addStatBlock(str, dex, con, intl, wis, cha);
@@ -231,7 +196,7 @@ public class sqlConnect {
                 reactionNums.add(addReaction(reaction));
             }
 
-            PreparedStatement ps = connection.prepareStatement(
+            ps = connection.prepareStatement(
                     String.format(
                             "insert into enemy(pNum, iNum, sNum, speed, intiativebonus) values(\"%s\",\"%s\",\"%s\",%d, %d);",
                             pcNum,
@@ -251,10 +216,14 @@ public class sqlConnect {
             }
         } catch (Exception exception) {
             System.err.println(exception);
+        } finally{
+            if (ps != null) {try {ps.close();} catch(SQLException e){System.err.println(e);}}
         }
     }
 
     public int addAction(String action) {
+        Statement statement = null;
+        ResultSet resultSet = null;
         StringBuilder sb = new StringBuilder();
         try {
             sb.append("insert into actions(action) values(\"");
@@ -263,15 +232,15 @@ public class sqlConnect {
             PreparedStatement ps = connection.prepareStatement(sb.toString());
             ps.execute();
 
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement
+            statement = connection.createStatement();
+            resultSet = statement
                     .executeQuery(String.format("select actionNum from actions where action = \"%s\";", action));
             resultSet.next();
             return resultSet.getInt("actionNum");
         } catch (Exception e) {
             try {
-                Statement statement = connection.createStatement();
-                ResultSet resultSet = statement
+                statement = connection.createStatement();
+                resultSet = statement
                         .executeQuery(String.format("select actionNum from actions where action = \"%s\";", action));
                 resultSet.next();
                 return resultSet.getInt("actionNum");
@@ -279,10 +248,15 @@ public class sqlConnect {
                 return 0;
             }
 
+        } finally{
+            if( statement != null) { try{statement.close(); }catch(SQLException e){System.err.println(e);}}
+            if( resultSet != null) { try{resultSet.close(); } catch(SQLException e){{System.err.println(e);}}}
         }
     }
 
     public int addReaction(String reaction) {
+        Statement statement = null;
+        ResultSet resultSet = null;
         StringBuilder sb = new StringBuilder();
         try {
             sb.append("insert into reactions(reaction) values(\"");
@@ -290,16 +264,16 @@ public class sqlConnect {
             sb.append("\");");
             PreparedStatement ps = connection.prepareStatement(sb.toString());
             ps.execute();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement
+            statement = connection.createStatement();
+            resultSet = statement
                     .executeQuery(
                             String.format("select reactionNum from reactions where reaction = \"%s\";", reaction));
             resultSet.next();
             return resultSet.getInt("reactionNum");
         } catch (Exception e) {
             try {
-                Statement statement = connection.createStatement();
-                ResultSet resultSet = statement
+                statement = connection.createStatement();
+                resultSet = statement
                         .executeQuery(
                                 String.format("select reactionNum from reactions where reaction = \"%s\";", reaction));
                 resultSet.next();
@@ -308,11 +282,17 @@ public class sqlConnect {
             } catch (Exception ex) {
                 return 0;
 
-            }
+            
+        }} finally{
+            if( statement != null) { try{statement.close(); } catch(SQLException e){System.err.println(e);}}
+            if( resultSet != null) { try{resultSet.close(); } catch(SQLException e){{System.err.println(e);}}}
         }
     }
 
     public int addOtherInfo(String st, String skills, String vul, String res, String immun, String lang, String sen) {
+        PreparedStatement preparedStatement = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
         StringBuilder sb = new StringBuilder();
         try {
             sb.append(
@@ -332,11 +312,11 @@ public class sqlConnect {
             sb.append(sen);
             sb.append("\");");
 
-            PreparedStatement preparedStatement = connection.prepareStatement(sb.toString());
+            preparedStatement = connection.prepareStatement(sb.toString());
             preparedStatement.execute();
 
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(String.format(
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(String.format(
                     "select infoNum from otherInfo where savingThrows = \"%s\" and skills = \"%s\" and vulnerabilites = \"%s\" and resistances = \"%s\" and immunities = \"%s\" and languages = \"%s\" and senses = \"%s\";",
                     st, skills, vul, res, immun, lang, sen));
             resultSet.next();
@@ -345,10 +325,17 @@ public class sqlConnect {
         } catch (Exception e) {
             System.err.println(e);
             return 0;
+        } finally {
+            if (preparedStatement != null) {try{preparedStatement.close();} catch (SQLException e){System.err.println(e);}}
+            if ( statement != null) { try{statement.close(); } catch(SQLException e){System.err.println(e);}}
+            if ( resultSet != null) { try{resultSet.close(); } catch(SQLException e){{System.err.println(e);}}}
         }
     }
 
     public int addStatBlock(String str, String dex, String con, String intl, String wis, String cha) {
+        PreparedStatement preparedStatement = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
         StringBuilder sb = new StringBuilder();
         try {
             sb.append("insert into statblock(str, dex, con, intl, wis, cha) values(\"");
@@ -364,29 +351,37 @@ public class sqlConnect {
             sb.append("\", \"");
             sb.append(cha);
             sb.append("\");");
-            PreparedStatement preparedStatement = connection.prepareStatement(sb.toString());
+            preparedStatement = connection.prepareStatement(sb.toString());
             preparedStatement.execute();
 
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(String.format(
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(String.format(
                     "select statNum from statBlock where str = \"%s\" and dex = \"%s\" and con = \"%s\" and intl = \"%s\" and wis = \"%s\" and cha = \"%s\";",
                     str, dex, con, intl, wis, cha));
             resultSet.next();
             return resultSet.getInt("statNum");
         } catch (Exception e) {
             return 0;
+        } finally {
+            if (preparedStatement != null) {try{preparedStatement.close();} catch (SQLException e){System.err.println(e);}}
+            if ( statement != null) { try{statement.close(); } catch(SQLException e){System.err.println(e);}}
+            if ( resultSet != null) { try{resultSet.close(); } catch(SQLException e){{System.err.println(e);}}}
         }
 
     }
 
     public void addEncounter(String name, String loot, String xp, ArrayList<Piece> pieces) {
+        PreparedStatement preparedStatement = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(String
+            preparedStatement = connection.prepareStatement(String
                     .format("insert into encounter(encName, loot, xp) value(\"%s\", \"%s\", \"%s\");", name, loot, xp));
             preparedStatement.execute();
 
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement
+            statement = connection.createStatement();
+            resultSet = statement
                     .executeQuery(String.format("select encNum from encounter where encName = \"%s\";", name));
             resultSet.next();
             int encNum = resultSet.getInt("encNum");
@@ -406,29 +401,40 @@ public class sqlConnect {
 
         } catch (Exception e) {
             System.err.println(e);
+        } finally {
+            if (preparedStatement != null) {try{preparedStatement.close();} catch (SQLException e){System.err.println(e);}}
+            if ( statement != null) { try{statement.close(); } catch(SQLException e){System.err.println(e);}}
+            if ( resultSet != null) { try{resultSet.close(); } catch(SQLException e){{System.err.println(e);}}}
         }
 
     }
 
     public void loadEncounters(ArrayList<Piece> pieces, ArrayList<Encounter> encounters) {
+        Statement statement = null; 
+        Statement statement2 = null;
+        Statement statement3 = null;
+        ResultSet resultSet = null;
+        ResultSet resultSet2 = null;
+        ResultSet resultSet3 = null;
+        
         try {
 
             ArrayList<Piece> piecesCopy = new ArrayList<Piece>(pieces); // pieces is an alias so we want to use this
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from encounter;");
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("select * from encounter;");
             while (resultSet.next()) {
                 int encNum = resultSet.getInt("encNum");
                 Encounter encounter = new Encounter(resultSet.getString("encName"), resultSet.getString("loot"),
                         resultSet.getString("xp"));
 
-                Statement statement2 = connection.createStatement();
-                ResultSet resultSet2 = statement2
+                statement2 = connection.createStatement();
+                resultSet2 = statement2
                         .executeQuery(String.format("select pnum from encounterrelations where enum = %d;", encNum));
 
                 while (resultSet2.next()) {
 
-                    Statement statement3 = connection.createStatement();
-                    ResultSet resultSet3 = statement3
+                    statement3 = connection.createStatement();
+                    resultSet3 = statement3
                             .executeQuery(String.format("select piecename from piece where piecenum = %d;",
                                     resultSet2.getInt("pnum")));
                     resultSet3.next();
@@ -448,18 +454,28 @@ public class sqlConnect {
 
         } catch (Exception e) {
             System.err.println(e);
+        } finally{
+            if (resultSet != null){ try{ resultSet.close(); } catch(SQLException e) { System.err.println(e); }}
+            if (resultSet2 != null){ try{ resultSet2.close(); } catch(SQLException e) { System.err.println(e); }}
+            if (resultSet3 != null){ try{ resultSet3.close(); } catch(SQLException e) { System.err.println(e); }}
+            if (statement != null){ try{ statement.close(); } catch(SQLException e) { System.err.println(e); }}
+            if (statement2 != null){ try{ statement2.close(); } catch(SQLException e) { System.err.println(e); }}
+            if (statement3 != null){ try{ statement3.close(); } catch(SQLException e) { System.err.println(e); }}
         }
 
     }
 
     public void addLocation(String name, ArrayList<Encounter> encounters) {
+        PreparedStatement preparedStatement = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
         try {
-            PreparedStatement preparedStatement = connection
+            preparedStatement = connection
                     .prepareStatement(String.format("insert into location(locName) values(\"%s\");", name));
             preparedStatement.execute();
 
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement
+            statement = connection.createStatement();
+            resultSet = statement
                     .executeQuery(String.format("select locNum from location where locName = \"%s\";", name));
             resultSet.next();
 
@@ -476,26 +492,36 @@ public class sqlConnect {
             }
         } catch (Exception e) {
             System.err.println(e);
+        } finally {
+            if (preparedStatement != null) {try{preparedStatement.close();} catch (SQLException e){System.err.println(e);}}
+            if ( statement != null) { try{statement.close(); } catch(SQLException e){System.err.println(e);}}
+            if ( resultSet != null) { try{resultSet.close(); } catch(SQLException e){{System.err.println(e);}}}
         }
 
     }
 
     public void loadLocations(ArrayList<Encounter> encounters, ArrayList<Location> locations) {
+        Statement statement = null; 
+        Statement statement2 = null;
+        Statement statement3 = null;
+        ResultSet resultSet = null;
+        ResultSet resultSet2 = null;
+        ResultSet resultSet3 = null;
         try {
             ArrayList<Encounter> encountersCopy = new ArrayList<Encounter>(encounters);
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from location;");
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("select * from location;");
             while (resultSet.next()) {
                 int locNum = resultSet.getInt("locNum");
                 Location location = new Location(resultSet.getString("locName"));
 
-                Statement statement2 = connection.createStatement();
-                ResultSet resultSet2 = statement2
+                statement2 = connection.createStatement();
+                resultSet2 = statement2
                         .executeQuery(String.format("select enum from locationrelations where lnum = %d;", locNum));
 
                 while (resultSet2.next()) {
-                    Statement statement3 = connection.createStatement();
-                    ResultSet resultSet3 = statement3
+                    statement3 = connection.createStatement();
+                    resultSet3 = statement3
                             .executeQuery(String.format("select encName from encounter where encnum = %d;",
                                     resultSet2.getInt("enum")));
                     resultSet3.next();
@@ -512,6 +538,13 @@ public class sqlConnect {
             }
         } catch (Exception e) {
             System.err.println(e);
+        } finally{
+            if (resultSet != null){ try{ resultSet.close(); } catch(SQLException e) { System.err.println(e); }}
+            if (resultSet2 != null){ try{ resultSet2.close(); } catch(SQLException e) { System.err.println(e); }}
+            if (resultSet3 != null){ try{ resultSet3.close(); } catch(SQLException e) { System.err.println(e); }}
+            if (statement != null){ try{ statement.close(); } catch(SQLException e) { System.err.println(e); }}
+            if (statement2 != null){ try{ statement2.close(); } catch(SQLException e) { System.err.println(e); }}
+            if (statement3 != null){ try{ statement3.close(); } catch(SQLException e) { System.err.println(e); }}
         }
     }
 
